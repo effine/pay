@@ -1,0 +1,12 @@
+# ignore dir
+/.settings
+/target
+
+
+# ignorer file
+.classpath
+.project
+*..class
+*.war
+*.ear
+*.jar
