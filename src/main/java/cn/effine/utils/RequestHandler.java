@@ -167,8 +167,7 @@ public class RequestHandler {
 			Map.Entry entry = (Map.Entry) it.next();
 			String k = (String) entry.getKey();
 			String v = (String) entry.getValue();
-			if (null != v && !"".equals(v) && !"sign".equals(k)
-					&& !"key".equals(k)) {
+			if (null != v && !"".equals(v) && !"sign".equals(k) && !"key".equals(k)) {
 				sb.append(k + "=" + v + "&");
 			}
 		}
@@ -176,8 +175,8 @@ public class RequestHandler {
 		String sign = MD5Util.MD5Encode(sb.toString(), this.charset)
 				.toUpperCase();
 		return sign;
-
 	}
+	
 	/**
 	 * 创建package签名
 	 */

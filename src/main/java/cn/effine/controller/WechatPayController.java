@@ -8,6 +8,9 @@
 
 package cn.effine.controller;
 
+import java.util.SortedMap;
+import java.util.TreeMap;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -31,23 +34,35 @@ public class WechatPayController {
 		QRCodeLinks.append("weixin：//wxpay/bizpayurl?");
 		
 		// 公众账号ID
-		QRCodeLinks.append("appid=" + WechatPropertiesUtils.getValue("appid"));
+		String appid = WechatPropertiesUtils.getValue("appid");
+		QRCodeLinks.append("appid=" + appid);
 		
 		// 商户号
-		QRCodeLinks.append("&mch_id=" + WechatPropertiesUtils.getValue("mch_id"));
+		String mch_id = WechatPropertiesUtils.getValue("mch_id");
+		QRCodeLinks.append("&mch_id=" + mch_id);
 		
 		// 系统当前时间戳
-		QRCodeLinks.append("&time_stamp=" + System.currentTimeMillis());
+		String time_stamp = String.valueOf(System.currentTimeMillis());
+		QRCodeLinks.append("&time_stamp=" + time_stamp);
 		
 		// 随机字符串
-		QRCodeLinks.append("&nonce_str=" + StringUtils.getRandomString(32));
+		String nonce_str = StringUtils.getRandomString(32);
+		QRCodeLinks.append("&nonce_str=" + nonce_str);
 		
 		// 商品ID(课程ID或者订单号)
 		// TODO effine 用订单号作为商品ID
 		QRCodeLinks.append("&product_id=" + crsId);
 		
 		// 签名
-		QRCodeLinks.append("&sign=" + StringUtils.getRandomString(32));
+		SortedMap<String, String> params = new TreeMap<String, String>();
+		params.put("appid", appid);
+		params.put("mch_id", mch_id);
+		params.put("nonce_str", nonce_str);
+		params.put("product_id", String.valueOf(crsId));
+		params.put("time_stamp", time_stamp);
+		
+		String sign = null;
+		QRCodeLinks.append("&sign=" + sign);
 		
 		return QRCodeLinks.toString();
 	}
