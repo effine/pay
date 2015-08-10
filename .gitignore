@@ -1,2 +1,12 @@
-/target/
-/target/
+
+/target
+.settings
+
+.classpath
+.project
+*.war
+*.ear
+*.jar
+*.class
+
+
