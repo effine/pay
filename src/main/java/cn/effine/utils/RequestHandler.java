@@ -172,7 +172,7 @@ public class RequestHandler {
 			}
 		}
 		sb.append("key=" + this.getKey());
-		String sign = MD5Util.MD5Encode(sb.toString(), this.charset)
+		String sign = MD5Utils.MD5Encode(sb.toString(), this.charset)
 				.toUpperCase();
 		return sign;
 	}
@@ -196,7 +196,7 @@ public class RequestHandler {
 		// 算出摘要
 		String enc = TenpayUtil.getCharacterEncoding(this.request,
 				this.response);
-		String sign = MD5Util.MD5Encode(sb.toString(), enc).toLowerCase();
+		String sign = MD5Utils.MD5Encode(sb.toString(), enc).toLowerCase();
 
 		String tenpaySign = this.getParameter("sign").toLowerCase();
 

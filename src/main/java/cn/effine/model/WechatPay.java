@@ -1,4 +1,4 @@
-package cn.effine.controller;
+package cn.effine.model;
 
 public class WechatPay {
 

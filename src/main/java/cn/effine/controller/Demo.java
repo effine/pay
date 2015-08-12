@@ -3,6 +3,7 @@ package cn.effine.controller;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import cn.effine.model.WechatPay;
 import cn.effine.utils.GetWxOrderno;
 import cn.effine.utils.RequestHandler;
 import cn.effine.utils.Sha1Util;

@@ -159,4 +159,28 @@ public class GetWxOrderno
 		return new ByteArrayInputStream(str.getBytes());
 	}
   
+  //订单查询接口
+  public static Map getOrderNo(String url,String xmlParam){
+	  DefaultHttpClient client = new DefaultHttpClient();
+	  client.getParams().setParameter(ClientPNames.ALLOW_CIRCULAR_REDIRECTS, true);
+	  HttpPost httpost= HttpClientConnectionManager.getPostMethod(url);
+	  String trade_state = "";
+	  Map map = new HashMap<String, Object>();
+	try {
+		 httpost.setEntity(new StringEntity(xmlParam, "UTF-8"));
+		 HttpResponse response = httpclient.execute(httpost);
+		 String jsonStr = EntityUtils.toString(response.getEntity(), "UTF-8");
+		 System.out.println("jsonStr==========="+jsonStr);
+		 Map<String, Object> dataMap = new HashMap<String, Object>();
+		 map = doXMLParse(jsonStr);
+		 if(jsonStr.indexOf("FAIL")!=-1){
+		    	return map;
+		}
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	return map;
+  }
+  
 }
