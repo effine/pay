@@ -22,6 +22,7 @@ import cn.effine.utils.Constants;
 import cn.effine.utils.GetWxOrderno;
 import cn.effine.utils.RequestHandler;
 import cn.effine.utils.Sha1Util;
+import cn.effine.utils.StringCustomUtils;
 import cn.effine.utils.WechatUtils;
 
 import com.google.zxing.BarcodeFormat;
@@ -189,7 +190,7 @@ public class WechatContrller {
 		packageParams.put("mch_id", Constants.partner);  
 		packageParams.put("transaction_id", transaction_id);  
 		packageParams.put("out_trade_no", out_trade_no);  
-		packageParams.put("nonce_str", WechatUtils.getRandomNum());  
+		packageParams.put("nonce_str", StringCustomUtils.getRandomString(32));  
 		
 		RequestHandler reqHandler = new RequestHandler(request, response);
 		reqHandler.init(Constants.appid, Constants.appsecret, Constants.partnerkey);
@@ -199,7 +200,7 @@ public class WechatContrller {
 				"<mch_id>"+ Constants.partner + "</mch_id>"+
 				"<transaction_id>"+transaction_id+"</transaction_id>"+
 				"<out_trade_no>"+out_trade_no+"</out_trade_no>"+
-				"<nonce_str>"+ WechatUtils.getRandomNum() +"</nonce_str>"+
+				"<nonce_str>"+ StringCustomUtils.getRandomString(32) +"</nonce_str>"+
 				"<sign><![CDATA["+sign+"]]></sign>"+
 				"</xml>";
 		String allParameters = "";
