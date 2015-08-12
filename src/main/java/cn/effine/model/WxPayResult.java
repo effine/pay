@@ -1,4 +1,4 @@
-package cn.effine.controller;
+package cn.effine.model;
 
 /**
  * description: 微信支付回调

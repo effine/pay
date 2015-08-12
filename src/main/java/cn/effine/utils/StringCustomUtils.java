@@ -12,8 +12,8 @@ import java.util.Random;
 /**
  * 字符串操作
  */
-public class StringUtils {
-	private StringUtils(){
+public class StringCustomUtils {
+	private StringCustomUtils(){
 		// 禁止外部实例化该类
 	}
 	
