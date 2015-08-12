@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import cn.effine.utils.StringUtils;
+import cn.effine.utils.StringCustomUtils;
 import cn.effine.utils.WechatPropertiesUtils;
 
 public class WechatPayController {
@@ -46,7 +46,7 @@ public class WechatPayController {
 		QRCodeLinks.append("&time_stamp=" + time_stamp);
 		
 		// 随机字符串
-		String nonce_str = StringUtils.getRandomString(32);
+		String nonce_str = StringCustomUtils.getRandomString(32);
 		QRCodeLinks.append("&nonce_str=" + nonce_str);
 		
 		// 商品ID(课程ID或者订单号)
