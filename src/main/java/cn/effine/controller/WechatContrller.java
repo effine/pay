@@ -22,7 +22,6 @@ import cn.effine.utils.Constants;
 import cn.effine.utils.GetWxOrderno;
 import cn.effine.utils.RequestHandler;
 import cn.effine.utils.Sha1Util;
-import cn.effine.utils.StringCustomUtils;
 import cn.effine.utils.WechatUtils;
 
 import com.google.zxing.BarcodeFormat;
@@ -184,13 +183,17 @@ public class WechatContrller {
 	 * @return
 	 */
 	@RequestMapping("query")
-	public void orderQuery(HttpServletRequest request, HttpServletResponse response, String transaction_id, String out_trade_no){
+	public void orderQuery(HttpServletRequest request, HttpServletResponse response){
+		
+		String transaction_id = "1000520290201508120606897590";
+		String out_trade_no = "1249621001";
+		
 		SortedMap<String, String> packageParams = new TreeMap<String, String>();
 		packageParams.put("appid", Constants.appid);  
 		packageParams.put("mch_id", Constants.partner);  
-		packageParams.put("transaction_id", transaction_id);  
+		packageParams.put("nonce_str", WechatUtils.getRandomNum());  
 		packageParams.put("out_trade_no", out_trade_no);  
-		packageParams.put("nonce_str", StringCustomUtils.getRandomString(32));  
+		packageParams.put("transaction_id", transaction_id);  
 		
 		RequestHandler reqHandler = new RequestHandler(request, response);
 		reqHandler.init(Constants.appid, Constants.appsecret, Constants.partnerkey);
@@ -198,11 +201,11 @@ public class WechatContrller {
 		String xml="<xml>"+
 				"<appid>"+ Constants.appid + "</appid>"+
 				"<mch_id>"+ Constants.partner + "</mch_id>"+
-				"<transaction_id>"+transaction_id+"</transaction_id>"+
+				"<nonce_str>"+ WechatUtils.getRandomNum() +"</nonce_str>"+
 				"<out_trade_no>"+out_trade_no+"</out_trade_no>"+
-				"<nonce_str>"+ StringCustomUtils.getRandomString(32) +"</nonce_str>"+
-				"<sign><![CDATA["+sign+"]]></sign>"+
-				"</xml>";
+				"<sign>" +sign+ "</sign>"+
+				"<transaction_id>"+transaction_id+"</transaction_id>"+
+		 		"</xml>";
 		String allParameters = "";
 		try {
 			allParameters =  reqHandler.genPackage(packageParams);
