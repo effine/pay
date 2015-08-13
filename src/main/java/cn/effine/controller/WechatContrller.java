@@ -58,6 +58,8 @@ public class WechatContrller {
 		// TODO effine 二维码临时图片放在该目录方便用户移除项目的时候清理
 		String path = request.getSession().getServletContext().getRealPath("/");	// 获取项目绝对路径
 		String qrcodeName = QRCodeUtils.generateQRCode(285, 285, QRCodeLinks, path+"/static/temp");
+		System.out.println("--------------"+request.getContextPath());
+		System.out.println("--------------"+qrcodeName.replace(path, ""));
 		model.addAttribute("wechatCode", request.getContextPath() + qrcodeName.replace(path, ""));
 		return "pay/showQRCode";
 	}
@@ -74,7 +76,7 @@ public class WechatContrller {
 	 * @return 用户完成支付的预支付交易ID（prepay_id）
 	 */
 	@RequestMapping("callback")
-	protected void callback(HttpServletRequest request, HttpServletResponse response){
+	protected String callback(HttpServletRequest request, HttpServletResponse response){
 		
 		//把如下代码贴到的你的处理回调的servlet 或者.do 中即可明白回调操作
 		System.out.print("----------- 微信支付回调数据开始");
@@ -148,7 +150,7 @@ public class WechatContrller {
 		System.out.println("------------微信支付回调结束");
 		System.out.println("---111---------transaction_id=" + session.getAttribute("transaction_id"));
 		System.out.println("----1111--------out_trade_no=" + session.getAttribute("out_trade_no"));
-		
+		return "pay/callback";
 	}
 
 	/**
