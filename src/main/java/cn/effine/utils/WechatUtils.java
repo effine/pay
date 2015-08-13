@@ -7,11 +7,8 @@
 
 package cn.effine.utils;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -21,13 +18,6 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
 import org.xml.sax.InputSource;
-
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
-import com.google.zxing.common.BitMatrix;
 
 import cn.effine.model.WechatPay;
 
@@ -94,9 +84,7 @@ public class WechatUtils {
 				+ "</trade_type>" 
 				+ "</xml>";
 		String createOrderURL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
-		String code_url = new GetWxOrderno().getCodeUrl(createOrderURL, xml);
-		System.out.println("code_url----------------"+code_url);
-		return code_url;
+		return new GetWxOrderno().getCodeUrl(createOrderURL, xml);
 	}
 	
 	/**
@@ -107,7 +95,7 @@ public class WechatUtils {
 	 * @author ex_yangxiaoyi
 	 * @see
 	 */
-	@SuppressWarnings({ "unused", "rawtypes", "unchecked" })
+	@SuppressWarnings({"rawtypes", "unchecked" })
 	public static Map parseXmlToList2(String xml) {
 		Map retMap = new HashMap();
 		try {

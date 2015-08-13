@@ -42,7 +42,7 @@ import com.google.zxing.common.HybridBinarizer;
  */
 public class QRCodeUtils {
 	
-    /**
+	/**
 	 * 生成二维码图片
 	 *
 	 * @param width
@@ -51,9 +51,11 @@ public class QRCodeUtils {
 	 *            高度
 	 * @param content
 	 *            二维码内容
+	 * @param filePath
+	 *            二维码生成路径
 	 * @return 二维码图片URL
 	 */
-	public  static String generateQRCode(int width, int height, String content){
+	public  static String generateQRCode(int width, int height, String content, String filePath){
 		if(width <= 0 || height <= 0){
 			return "二维码图片尺寸错误";
 		}
@@ -62,7 +64,6 @@ public class QRCodeUtils {
 		}
 		
 		String format = "png";	// 图片类型
-		String filePath = System.getProperty("user.dir") + "/target";	// 文件路径
 		String fileName = System.currentTimeMillis()+"."+ format;	// 文件名
 		
 		 Map<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>();  

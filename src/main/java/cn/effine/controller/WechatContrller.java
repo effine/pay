@@ -1,9 +1,7 @@
 package cn.effine.controller;
 
 import java.io.BufferedOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.util.Hashtable;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -20,17 +18,11 @@ import cn.effine.model.WechatPay;
 import cn.effine.model.WxPayResult;
 import cn.effine.utils.Constants;
 import cn.effine.utils.GetWxOrderno;
+import cn.effine.utils.QRCodeUtils;
 import cn.effine.utils.RequestHandler;
 import cn.effine.utils.Sha1Util;
 import cn.effine.utils.StringCustomUtils;
 import cn.effine.utils.WechatUtils;
-
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
-import com.google.zxing.common.BitMatrix;
 
 /**
  * 微信支付
@@ -52,38 +44,21 @@ public class WechatContrller {
 	public String generateQRCode(HttpServletRequest request, HttpServletResponse response, Model model, String info, int price){
 		//扫码支付
 	    WechatPay webPay = new WechatPay();
-	    
 	    webPay.setBody(info);
+	    webPay.setSpbillCreateIp("127.0.0.1");
+	    webPay.setTotalFee(price);
+	    
 	    // 模拟商户生成订单号(全为数字：13位当前时间+4位随机数)
 	    webPay.setOrderId(System.currentTimeMillis() + StringCustomUtils.getRandomNum(4));
-	    webPay.setSpbillCreateIp("127.0	.0.1");
-	    webPay.setTotalFee(price);
+	  
 	    // 获得二维码内部链接
 		String QRCodeLinks =  WechatUtils.getCodeurl(webPay);
-		model.addAttribute("name","effine");
 		model.addAttribute("qrcode", QRCodeLinks);
 		
-		// 生成二维码图片
-		int width = 285;
-		int height = 285;
-		String format = "png";
-		Hashtable hints= new Hashtable();
-		hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
-		BitMatrix bitMatrix = null;
-		try {
-			bitMatrix = new MultiFormatWriter().encode(QRCodeLinks, BarcodeFormat.QR_CODE, width, height,hints);
-		} catch (WriterException e) {
-			e.printStackTrace();
-		}
-		
-		String path = "/home/data/picture/pay/QRCode/" + System.currentTimeMillis() + ".png";
-		File outputFile = new File(path);
-		try {
-			MatrixToImageWriter.writeToFile(bitMatrix, format, outputFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		model.addAttribute("wechatCode", path.replace("/home/data", ""));
+		// TODO effine 二维码临时图片放在该目录方便用户移除项目的时候清理
+		String path = request.getSession().getServletContext().getRealPath("/");	// 获取项目绝对路径
+		String qrcodeName = QRCodeUtils.generateQRCode(285, 285, QRCodeLinks, path+"/static/temp");
+		model.addAttribute("wechatCode", request.getContextPath() + qrcodeName.replace(path, ""));
 		return "pay/showQRCode";
 	}
 	
