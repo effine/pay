@@ -84,6 +84,7 @@ public class WechatContrller {
 	
 	/**
 	 * 支付回调方法
+	 * 
 	 * 微信公众平台设置回调URL: 微信公众平台[https://mp.weixin.qq.com] --> 微信支付 --> 开发配置  --> 扫码支付 -- 修改"支付回调URL"
 	 * 
 	 * @param openid
@@ -93,7 +94,6 @@ public class WechatContrller {
 	 * @return 用户完成支付的预支付交易ID（prepay_id）
 	 */
 	@RequestMapping("callback")
-	@Deprecated
 	protected void callback(HttpServletRequest request, HttpServletResponse response){
 		
 		//把如下代码贴到的你的处理回调的servlet 或者.do 中即可明白回调操作

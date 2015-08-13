@@ -19,10 +19,7 @@ public class Constants {
 	// openId 是微信用户针对公众号的标识，授权的部分这里不解释
 	public static String openId = "";
 	
-	// 微信支付成功后通知地址 必须要求80端口并且地址不能带参数
-	public static String notifyurl = "http://www.effine.net/wechat/callback"; // Key
-	
-	// 微信订单查询
-	public static String orderQuery = "https://api.mch.weixin.qq.com/pay/orderquery";
+	public static String notifyurl = PropertiesUtils.getValue("notifyurl");
+	public static String orderQuery = PropertiesUtils.getValue("orderquery");
 	
 }
