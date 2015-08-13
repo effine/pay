@@ -22,6 +22,7 @@ import cn.effine.utils.Constants;
 import cn.effine.utils.GetWxOrderno;
 import cn.effine.utils.RequestHandler;
 import cn.effine.utils.Sha1Util;
+import cn.effine.utils.StringCustomUtils;
 import cn.effine.utils.WechatUtils;
 
 import com.google.zxing.BarcodeFormat;
@@ -43,22 +44,26 @@ public class WechatContrller {
 	 *
 	 * @param info
 	 *            商品信息
+	 * @param price
+	 *            支付金额(单位: 分)， 不存在小数
 	 * @return 展示二维码页面
 	 */
 	@RequestMapping("qrcode")
-	public String generateQRCode(HttpServletRequest request, HttpServletResponse response, Model model, String info){
-		 //扫码支付
+	public String generateQRCode(HttpServletRequest request, HttpServletResponse response, Model model, String info, int price){
+		//扫码支付
 	    WechatPay webPay = new WechatPay();
 	    
-	    webPay.setBody("商品信息: " + info);
-	    webPay.setOrderId(WechatUtils.getRandomNum());
-	    webPay.setSpbillCreateIp("127.0.0.1");
-	    webPay.setTotalFee("0.01");
+	    webPay.setBody(info);
+	    // 模拟商户生成订单号(全为数字：13位当前时间+4位随机数)
+	    webPay.setOrderId(System.currentTimeMillis() + StringCustomUtils.getRandomNum(4));
+	    webPay.setSpbillCreateIp("127.0	.0.1");
+	    webPay.setTotalFee(price);
 	    // 获得二维码内部链接
 		String QRCodeLinks =  WechatUtils.getCodeurl(webPay);
 		model.addAttribute("name","effine");
 		model.addAttribute("qrcode", QRCodeLinks);
 		
+		// 生成二维码图片
 		int width = 285;
 		int height = 285;
 		String format = "png";
@@ -191,7 +196,7 @@ public class WechatContrller {
 		SortedMap<String, String> packageParams = new TreeMap<String, String>();
 		packageParams.put("appid", Constants.appid);  
 		packageParams.put("mch_id", Constants.partner);  
-		packageParams.put("nonce_str", WechatUtils.getRandomNum());  
+		packageParams.put("nonce_str", StringCustomUtils.getRandomString(32));  
 		packageParams.put("out_trade_no", out_trade_no);  
 		packageParams.put("transaction_id", transaction_id);  
 		
@@ -201,7 +206,7 @@ public class WechatContrller {
 		String xml="<xml>"+
 				"<appid>"+ Constants.appid + "</appid>"+
 				"<mch_id>"+ Constants.partner + "</mch_id>"+
-				"<nonce_str>"+ WechatUtils.getRandomNum() +"</nonce_str>"+
+				"<nonce_str>"+ StringCustomUtils.getRandomString(32) +"</nonce_str>"+
 				"<out_trade_no>"+out_trade_no+"</out_trade_no>"+
 				"<sign>" +sign+ "</sign>"+
 				"<transaction_id>"+transaction_id+"</transaction_id>"+
@@ -283,7 +288,6 @@ public class WechatContrller {
 		// 附加数据 原样返回
 		String attach = "";
 		// 总金额以分为单位，不带小数点
-		String totalFee = WechatUtils.getMoney(model.getTotalFee());
 		
 		// 订单生成的机器 IP
 		String spbill_create_ip = model.getSpbillCreateIp();
@@ -295,7 +299,7 @@ public class WechatContrller {
 		// 商户号
 		String mch_id = Constants.partner;
 		// 随机字符串
-		String nonce_str = WechatUtils.getRandomNum();
+		String nonce_str = StringCustomUtils.getRandomString(32);
 
 		// 商品描述根据情况修改
 		String body = model.getBody();
@@ -306,13 +310,13 @@ public class WechatContrller {
 		SortedMap<String, String> packageParams = new TreeMap<String, String>();
 		packageParams.put("appid", Constants.appid);
 		packageParams.put("mch_id", mch_id);
-		packageParams.put("nonce_str", nonce_str);
+		packageParams.put("nonce_str", StringCustomUtils.getRandomString(32));
 		packageParams.put("body", body);
 		packageParams.put("attach", attach);
 		packageParams.put("out_trade_no", out_trade_no);
 
 		// 这里写的金额为1 分到时修改
-		packageParams.put("total_fee", totalFee);
+		packageParams.put("total_fee", String.valueOf(model.getTotalFee()));
 		packageParams.put("spbill_create_ip", spbill_create_ip);
 		packageParams.put("notify_url", notify_url);
 
@@ -329,7 +333,7 @@ public class WechatContrller {
 				+ "<body><![CDATA[" + body + "]]></body>" 
 				+ "<out_trade_no>" + out_trade_no
 				+ "</out_trade_no>" + "<attach>" + attach + "</attach>"
-				+ "<total_fee>" + totalFee + "</total_fee>"
+				+ "<total_fee>" + model.getTotalFee() + "</total_fee>"
 				+ "<spbill_create_ip>" + spbill_create_ip
 				+ "</spbill_create_ip>" + "<notify_url>" + notify_url
 				+ "</notify_url>" + "<trade_type>" + trade_type
@@ -342,7 +346,6 @@ public class WechatContrller {
 		prepay_id = new GetWxOrderno().getPayNo(createOrderURL, xml);
 
 		System.out.println("获取到的预支付ID：" + prepay_id);
-		
 		
 		//获取prepay_id后，拼接最后请求支付所需要的package
 		

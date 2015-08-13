@@ -20,16 +20,30 @@ import java.util.SortedMap;
 
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * Properties文件操作类
+ */
 public class PropertiesUtils {
 	private PropertiesUtils() {
 		// 构造方法私有化，外部不能实例化该类 
 	}
-	private static Properties properties ;
+	
+	private static Properties payProperties ;
+	private static Properties wechatProperties ;
+	
+	
 	static {
-		properties = new Properties();
+		payProperties = new Properties();
+		wechatProperties = new Properties();
 		try {
-			InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("wechat.properties");
-			properties.load(is);
+			// 解析文件pay.properties
+			InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("pay.properties");
+			payProperties.load(is);
+			
+			// 解析文件wechat.properties
+			is = Thread.currentThread().getContextClassLoader().getResourceAsStream("wechat.properties");
+			wechatProperties.load(is);
+			
 			is.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -39,14 +53,25 @@ public class PropertiesUtils {
 	}
 
 	/**
-	 * 获取properties文件属性
+	 * 获取pay.properties文件属性
 	 * 
 	 * @param key
-	 *            config.properties文件key
-	 * @return config.properties文件key对应value
+	 *            文件key
+	 * @return 文件key对应value
 	 */
-	public static String getValue(String key) {
-		return properties.getProperty(key);
+	public static String getPayValue(String key) {
+		return payProperties.getProperty(key);
+	}
+	
+	/**
+	 * 获取wechat.properties文件属性
+	 * 
+	 * @param key
+	 *            文件key
+	 * @return 文件key对应value
+	 */
+	public static String getWechatValue(String key) {
+		return wechatProperties.getProperty(key);
 	}
 	
 	/**

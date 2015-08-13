@@ -7,6 +7,7 @@ import cn.effine.model.WechatPay;
 import cn.effine.utils.GetWxOrderno;
 import cn.effine.utils.RequestHandler;
 import cn.effine.utils.Sha1Util;
+import cn.effine.utils.StringCustomUtils;
 import cn.effine.utils.TenpayUtil;
 
 public class Demo {
@@ -32,7 +33,7 @@ public class Demo {
 		wechatPay.setBody("商品信息");
 		wechatPay.setOrderId(getNonceStr());
 		wechatPay.setSpbillCreateIp("127.0.0.1");
-		wechatPay.setTotalFee("0.01");
+		wechatPay.setTotalFee(1);
 	    getPackage(wechatPay);
 	    
 	    //扫码支付
@@ -40,7 +41,7 @@ public class Demo {
 	    model.setBody("商品信息");
 	    model.setOrderId(getNonceStr());
 	    model.setSpbillCreateIp("127.0.0.1");
-	    model.setTotalFee("0.01");
+	    model.setTotalFee(1);
 		String QRCodeLinks = getCodeurl(model);
 		System.out.println("微信二维码链接："+QRCodeLinks);
 	}
@@ -56,7 +57,7 @@ public class Demo {
 		String attach = "";
 		
 		// 总金额以分为单位，不带小数点
-		String totalFee = getMoney(model.getTotalFee());
+		String totalFee = getMoney(String.valueOf(model.getTotalFee()));
 		
 		// 订单生成的机器 IP
 		String spbill_create_ip = model.getSpbillCreateIp();
@@ -128,7 +129,7 @@ public class Demo {
 		// 附加数据 原样返回
 		String attach = "";
 		// 总金额以分为单位，不带小数点
-		String totalFee = getMoney(model.getTotalFee());
+		String totalFee = getMoney(String.valueOf(model.getTotalFee()));
 		
 		// 订单生成的机器 IP
 		String spbill_create_ip = model.getSpbillCreateIp();
@@ -221,7 +222,7 @@ public class Demo {
 		// 8位日期
 		String strTime = currTime.substring(8, currTime.length());
 		// 四位随机数
-		String strRandom = TenpayUtil.buildRandom(4) + "";
+		String strRandom = StringCustomUtils.getRandomNum(4);
 		// 10位序列号,可以自行调整。
 		return strTime + strRandom;
 	}

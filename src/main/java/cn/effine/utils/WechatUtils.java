@@ -7,8 +7,11 @@
 
 package cn.effine.utils;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -19,56 +22,16 @@ import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
 import org.xml.sax.InputSource;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+
 import cn.effine.model.WechatPay;
 
 public class WechatUtils {
-	
-	/**
-	 * 元转换成分
-	 * 
-	 * @param money
-	 * @return
-	 */
-	public static String getMoney(String amount) {
-		if (amount == null) {
-			return "";
-		}
-		// 金额转化为分为单位
-		String currency = amount.replaceAll("\\$|\\￥|\\,", ""); // 处理包含, ￥
-																// 或者$的金额
-		int index = currency.indexOf(".");
-		int length = currency.length();
-		Long amLong = 0l;
-		if (index == -1) {
-			amLong = Long.valueOf(currency + "00");
-		} else if (length - index >= 3) {
-			amLong = Long.valueOf((currency.substring(0, index + 3)).replace(
-					".", ""));
-		} else if (length - index == 2) {
-			amLong = Long.valueOf((currency.substring(0, index + 2)).replace(
-					".", "") + 0);
-		} else {
-			amLong = Long.valueOf((currency.substring(0, index + 1)).replace(
-					".", "") + "00");
-		}
-		return amLong.toString();
-	}
-
-	/**
-	 * 获取随机字符串
-	 * 
-	 * @return 8位数字字符串
-	 */
-	public static String getRandomNum() {
-		// 随机数
-		String currTime = TenpayUtil.getCurrTime();
-		// 8位日期
-		String strTime = currTime.substring(8, currTime.length());
-		// 四位随机数
-		String strRandom = TenpayUtil.buildRandom(4) + "";
-		// 10位序列号,可以自行调整。
-		return strTime + strRandom;
-	}
 	
 	/**
 	 * 获取微信扫码支付二维码连接
@@ -79,9 +42,6 @@ public class WechatUtils {
 		
 		// 附加数据 原样返回
 		String attach = "";
-		
-		// 总金额以分为单位，不带小数点
-		String totalFee = WechatUtils.getMoney(model.getTotalFee());
 		
 		// 订单生成的机器 IP
 		String spbill_create_ip = model.getSpbillCreateIp();
@@ -94,7 +54,7 @@ public class WechatUtils {
 		String mch_id = Constants.partner;
 		
 		// 随机字符串
-		String nonce_str = WechatUtils.getRandomNum();
+		String nonce_str = StringCustomUtils.getRandomString(32);
 
 		// 商品描述根据情况修改
 		String body = model.getBody();
@@ -111,7 +71,7 @@ public class WechatUtils {
 		packageParams.put("out_trade_no", out_trade_no);
 
 		// 这里写的金额为1 分到时修改
-		packageParams.put("total_fee", totalFee);
+		packageParams.put("total_fee", String.valueOf(model.getTotalFee()));
 		packageParams.put("spbill_create_ip", spbill_create_ip);
 		packageParams.put("notify_url", notify_url);
 
@@ -127,7 +87,7 @@ public class WechatUtils {
 				+ "<body><![CDATA[" + body + "]]></body>" 
 				+ "<out_trade_no>" + out_trade_no
 				+ "</out_trade_no>" + "<attach>" + attach + "</attach>"
-				+ "<total_fee>" + totalFee + "</total_fee>"
+				+ "<total_fee>" + model.getTotalFee() + "</total_fee>"
 				+ "<spbill_create_ip>" + spbill_create_ip
 				+ "</spbill_create_ip>" + "<notify_url>" + notify_url
 				+ "</notify_url>" + "<trade_type>" + trade_type
@@ -170,4 +130,6 @@ public class WechatUtils {
 		}
 		return retMap;
 	}
+	
+	
 }
