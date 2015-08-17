@@ -118,6 +118,4 @@ public class WechatUtils {
 		}
 		return retMap;
 	}
-	
-	
 }
