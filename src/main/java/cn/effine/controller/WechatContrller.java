@@ -76,13 +76,29 @@ public class WechatContrller {
 	 * @return 用户完成支付的预支付交易ID（prepay_id）
 	 */
 	@RequestMapping("callback")
-	protected String callback(HttpServletRequest request, HttpServletResponse response){
+	protected void callback(HttpServletRequest request, HttpServletResponse response){
+		/**
+		 微信返回示例报文
+		String xml = "<xml>"
+					+ "<appid><![CDATA[wxb4dc385f953b356e]]></appid>"
+					+ "<bank_type><![CDATA[CCB_CREDIT]]></bank_type>"
+					+ "<cash_fee><![CDATA[1]]></cash_fee>"
+					+ "<fee_type><![CDATA[CNY]]></fee_type>"
+					+ "<is_subscribe><![CDATA[Y]]></is_subscribe>"
+					+ "<mch_id><![CDATA[1228442802]]></mch_id>"
+					+ "<nonce_str><![CDATA[1002477130]]></nonce_str>"
+					+ "<openid><![CDATA[o-HREuJzRr3moMvv990VdfnQ8x4k]]></openid>"
+					+ "<out_trade_no><![CDATA[1000000000051249]]></out_trade_no>"
+					+ "<result_code><![CDATA[SUCCESS]]></result_code>"
+					+ "<return_code><![CDATA[SUCCESS]]></return_code>"
+					+ "<sign><![CDATA[1269E03E43F2B8C388A414EDAE185CEE]]></sign>"
+					+ "<time_end><![CDATA[20150324100405]]></time_end>"
+					+ "<total_fee>1</total_fee>"
+					+ "<trade_type><![CDATA[JSAPI]]></trade_type>"
+					+ "<transaction_id><![CDATA[1009530574201503240036299496]]></transaction_id>"
+					+ "</xml>";
+		*/
 		
-		//把如下代码贴到的你的处理回调的servlet 或者.do 中即可明白回调操作
-		System.out.print("----------- 微信支付回调数据开始");
-		
-		//示例报文
-//		String xml = "<xml><appid><![CDATA[wxb4dc385f953b356e]]></appid><bank_type><![CDATA[CCB_CREDIT]]></bank_type><cash_fee><![CDATA[1]]></cash_fee><fee_type><![CDATA[CNY]]></fee_type><is_subscribe><![CDATA[Y]]></is_subscribe><mch_id><![CDATA[1228442802]]></mch_id><nonce_str><![CDATA[1002477130]]></nonce_str><openid><![CDATA[o-HREuJzRr3moMvv990VdfnQ8x4k]]></openid><out_trade_no><![CDATA[1000000000051249]]></out_trade_no><result_code><![CDATA[SUCCESS]]></result_code><return_code><![CDATA[SUCCESS]]></return_code><sign><![CDATA[1269E03E43F2B8C388A414EDAE185CEE]]></sign><time_end><![CDATA[20150324100405]]></time_end><total_fee>1</total_fee><trade_type><![CDATA[JSAPI]]></trade_type><transaction_id><![CDATA[1009530574201503240036299496]]></transaction_id></xml>";
 		String inputLine;
 		String notityXml = "";
 		String resXml = "";
@@ -96,8 +112,6 @@ public class WechatContrller {
 			e.printStackTrace();
 		}
 
-		System.out.println("接收到的报文：" + notityXml);
-		
 		Map m = WechatUtils.parseXmlToList2(notityXml);
 		WxPayResult model = new WxPayResult();
 		model.setAppid(m.get("appid").toString());
@@ -125,15 +139,19 @@ public class WechatContrller {
 		
 		if("SUCCESS".equals(model.getResultCode())){
 			//支付成功
-			resXml = "<xml>" + "<return_code><![CDATA[SUCCESS]]></return_code>"
-			+ "<return_msg><![CDATA[OK]]></return_msg>" + "</xml> ";
+			resXml = "<xml>"
+					+ "<return_code><![CDATA[SUCCESS]]></return_code>"
+					+ "<return_msg><![CDATA[OK]]></return_msg>"
+					+ "</xml> ";
+			
+			// TODO effine 此处进行业务处理（修改订单支付状态等）
+			
 		}else{
-			resXml = "<xml>" + "<return_code><![CDATA[FAIL]]></return_code>"
-			+ "<return_msg><![CDATA[报文为空]]></return_msg>" + "</xml> ";
+			resXml = "<xml>"
+					+ "<return_code><![CDATA[FAIL]]></return_code>"
+					+ "<return_msg><![CDATA[报文为空]]></return_msg>"
+					+ "</xml> ";
 		}
-
-		System.out.println("微信支付回调数据结束");
-
 		BufferedOutputStream out = null;
 		try {
 			out = new BufferedOutputStream(response.getOutputStream());
@@ -147,10 +165,6 @@ public class WechatContrller {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("------------微信支付回调结束");
-		System.out.println("---111---------transaction_id=" + session.getAttribute("transaction_id"));
-		System.out.println("----1111--------out_trade_no=" + session.getAttribute("out_trade_no"));
-		return "pay/callback";
 	}
 
 	/**
