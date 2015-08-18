@@ -70,7 +70,7 @@ public class WechatUtils {
 		RequestHandler reqHandler = new RequestHandler(null, null);
 		reqHandler.init(Constants.appid, Constants.appsecret, Constants.partnerkey);
 
-		String sign = reqHandler.createSign(packageParams);
+		String sign = reqHandler.generateSign(packageParams);
 		String xml = "<xml>" + "<appid>" + Constants.appid + "</appid>" + "<mch_id>"
 				+ mch_id + "</mch_id>" + "<nonce_str>" + nonce_str
 				+ "</nonce_str>" + "<sign>" + sign + "</sign>"

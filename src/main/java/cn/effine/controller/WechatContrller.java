@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -176,14 +177,14 @@ public class WechatContrller {
 	 * @param out_trade_no
 	 *            商户订单号(根据实际更换)
 	 * 
-	 * @return
+	 * @return 
 	 */
-	@RequestMapping("query")
+	@RequestMapping("orderquery")
 	public void orderQuery(HttpServletRequest request, HttpServletResponse response){
+		String transaction_id = "1010170290201508110595762800";
+		String out_trade_no = "0951218353";
 		
-		String transaction_id = "1000520290201508120606897590";
-		String out_trade_no = "1249621001";
-		
+		// 参数集合按参数key的ASCII从小到大插入(参考：签名算法[https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=4_3])
 		SortedMap<String, String> packageParams = new TreeMap<String, String>();
 		packageParams.put("appid", Constants.appid);  
 		packageParams.put("mch_id", Constants.partner);  
@@ -192,28 +193,24 @@ public class WechatContrller {
 		packageParams.put("transaction_id", transaction_id);  
 		
 		RequestHandler reqHandler = new RequestHandler(request, response);
+		// TODO effine 验证是否有用，无用则删除
 		reqHandler.init(Constants.appid, Constants.appsecret, Constants.partnerkey);
-		String sign = reqHandler.createSign(packageParams);
+		String sign = reqHandler.generateSign(packageParams);
+		
 		String xml="<xml>"+
 				"<appid>"+ Constants.appid + "</appid>"+
 				"<mch_id>"+ Constants.partner + "</mch_id>"+
 				"<nonce_str>"+ StringCustomUtils.getRandomString(32) +"</nonce_str>"+
 				"<out_trade_no>"+out_trade_no+"</out_trade_no>"+
-				"<sign>" +sign+ "</sign>"+
 				"<transaction_id>"+transaction_id+"</transaction_id>"+
+				"<sign>" +sign+ "</sign>"+
 		 		"</xml>";
-		String allParameters = "";
-		try {
-			allParameters =  reqHandler.genPackage(packageParams);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		
 		//订单查询接口URL
 		try {
 			Map map = new GetWxOrderno().getOrderNo(Constants.orderQuery, xml);
 			System.out.println("map="+map);
-			if(map.get("trade_state").equals("")){
+			if(StringUtils.isNotBlank(String.valueOf(map.get("trade_state")))){
 				System.out.println("-------订单出错");
 			}else{
 				//String return_code  = (String) map.get("return_code");
@@ -317,7 +314,7 @@ public class WechatContrller {
 		RequestHandler reqHandler = new RequestHandler(null, null);
 		reqHandler.init(Constants.appid, Constants.appsecret, Constants.partnerkey);
 
-		String sign = reqHandler.createSign(packageParams);
+		String sign = reqHandler.generateSign(packageParams);
 		String xml = "<xml>" + "<appid>" + Constants.appid + "</appid>" + "<mch_id>"
 				+ mch_id + "</mch_id>" + "<nonce_str>" + nonce_str
 				+ "</nonce_str>" + "<sign>" + sign + "</sign>"
@@ -349,7 +346,7 @@ public class WechatContrller {
 		finalpackage.put("package", packages);  
 		finalpackage.put("signType", "MD5");
 		//要签名
-		String finalsign = reqHandler.createSign(finalpackage);
+		String finalsign = reqHandler.generateSign(finalpackage);
 		
 		String finaPackage = "\"appId\":\"" + Constants.appid + "\",\"timeStamp\":\"" + timestamp
 		+ "\",\"nonceStr\":\"" + nonce_str + "\",\"package\":\""

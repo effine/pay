@@ -12,7 +12,7 @@ public class Constants {
 	public static String appid = null;
 	public static String appsecret = null;
 	public static String partner = null;
-
+	
 	// 这个参数partnerkey是在商户后台配置的一个32位的key,微信商户平台-账户设置-安全设置-api安全
 	public static String partnerkey = null;
 
@@ -28,7 +28,7 @@ public class Constants {
 		appsecret = PropertiesUtils.getWechatValue("AppSecret");
 		partner = PropertiesUtils.getWechatValue("mch_id");
 		partnerkey = PropertiesUtils.getWechatValue("api_secret_key");
-				
+		
 		notifyurl = PropertiesUtils.getWechatValue("notifyurl");
 		orderQuery = PropertiesUtils.getWechatValue("orderquery");
 	}

@@ -96,7 +96,7 @@ public class Demo {
 		RequestHandler reqHandler = new RequestHandler(null, null);
 		reqHandler.init(appid, appsecret, partnerkey);
 
-		String sign = reqHandler.createSign(packageParams);
+		String sign = reqHandler.generateSign(packageParams);
 		String xml = "<xml>" + "<appid>" + appid + "</appid>" + "<mch_id>"
 				+ mch_id + "</mch_id>" + "<nonce_str>" + nonce_str
 				+ "</nonce_str>" + "<sign>" + sign + "</sign>"
@@ -168,7 +168,7 @@ public class Demo {
 		RequestHandler reqHandler = new RequestHandler(null, null);
 		reqHandler.init(appid, appsecret, partnerkey);
 
-		String sign = reqHandler.createSign(packageParams);
+		String sign = reqHandler.generateSign(packageParams);
 		String xml = "<xml>" + "<appid>" + appid + "</appid>" + "<mch_id>"
 				+ mch_id + "</mch_id>" + "<nonce_str>" + nonce_str
 				+ "</nonce_str>" + "<sign>" + sign + "</sign>"
@@ -201,7 +201,7 @@ public class Demo {
 		finalpackage.put("package", packages);  
 		finalpackage.put("signType", "MD5");
 		//要签名
-		String finalsign = reqHandler.createSign(finalpackage);
+		String finalsign = reqHandler.generateSign(finalpackage);
 		
 		String finaPackage = "\"appId\":\"" + appid + "\",\"timeStamp\":\"" + timestamp
 		+ "\",\"nonceStr\":\"" + nonce_str + "\",\"package\":\""

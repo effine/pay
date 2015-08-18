@@ -169,18 +169,15 @@ public class GetWxOrderno
 	try {
 		 httpost.setEntity(new StringEntity(xmlParam, "UTF-8"));
 		 HttpResponse response = httpclient.execute(httpost);
-		 String jsonStr = EntityUtils.toString(response.getEntity(), "UTF-8");
-		 System.out.println("jsonStr==========="+jsonStr);
+		 String jsonStr = EntityUtils.toString(response.getEntity(), "GBK");
 		 Map<String, Object> dataMap = new HashMap<String, Object>();
 		 map = doXMLParse(jsonStr);
 		 if(jsonStr.indexOf("FAIL")!=-1){
 		    	return map;
 		}
 	} catch (Exception e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
 	return map;
   }
-  
 }

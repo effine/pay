@@ -39,12 +39,12 @@ public class PropertiesUtils {
 			// 解析文件pay.properties
 			InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("pay.properties");
 			payProperties.load(is);
+			is.close();
 			
 			// 解析文件wechat.properties
-			is = Thread.currentThread().getContextClassLoader().getResourceAsStream("wechat.properties");
-			wechatProperties.load(is);
-			
-			is.close();
+			InputStream wechatIs = Thread.currentThread().getContextClassLoader().getResourceAsStream("wechat.properties");
+			wechatProperties.load(wechatIs);
+			wechatIs.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
