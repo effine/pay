@@ -32,7 +32,6 @@ public class GetWxOrderno
     httpclient = (DefaultHttpClient)HttpClientConnectionManager.getSSLInstance(httpclient);
   }
 
-
   /**
    *description:获取预支付id
    *@param url

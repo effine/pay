@@ -28,8 +28,9 @@ public class PropertiesUtils {
 		// 构造方法私有化，外部不能实例化该类 
 	}
 	
-	private static Properties payProperties ;
-	private static Properties wechatProperties ;
+	private static Properties payProperties;
+	private static Properties wechatProperties;
+	private static Properties alipayProperties;
 	
 	
 	static {
@@ -45,6 +46,11 @@ public class PropertiesUtils {
 			InputStream wechatIs = Thread.currentThread().getContextClassLoader().getResourceAsStream("wechat.properties");
 			wechatProperties.load(wechatIs);
 			wechatIs.close();
+			
+			// 解析文件alipay.properties
+			InputStream alipayIs = Thread.currentThread().getContextClassLoader().getResourceAsStream("wechat.properties");
+			alipayProperties.load(alipayIs);
+			alipayIs.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -72,6 +78,17 @@ public class PropertiesUtils {
 	 */
 	public static String getWechatValue(String key) {
 		return wechatProperties.getProperty(key);
+	}
+	
+	/**
+	 * 获取alipay.properties文件属性
+	 * 
+	 * @param key
+	 *            文件key
+	 * @return 文件key对应value
+	 */
+	public static String getAlipayValue(String key) {
+		return alipayProperties.getProperty(key);
 	}
 	
 	/**
