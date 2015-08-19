@@ -38,33 +38,4 @@ public class UtilDate {
 		DateFormat df=new SimpleDateFormat(dtLong);
 		return df.format(date);
 	}
-	
-	/**
-	 * 获取系统当前日期(精确到毫秒)，格式：yyyy-MM-dd HH:mm:ss
-	 * @return
-	 */
-	public  static String getDateFormatter(){
-		Date date=new Date();
-		DateFormat df=new SimpleDateFormat(simple);
-		return df.format(date);
-	}
-	
-	/**
-	 * 获取系统当期年月日(精确到天)，格式：yyyyMMdd
-	 * @return
-	 */
-	public static String getDate(){
-		Date date=new Date();
-		DateFormat df=new SimpleDateFormat(dtShort);
-		return df.format(date);
-	}
-	
-	/**
-	 * 产生随机的三位数
-	 * @return
-	 */
-	public static String getThree(){
-		Random rad=new Random();
-		return rad.nextInt(1000)+"";
-	}
 }
