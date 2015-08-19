@@ -181,11 +181,9 @@ public class Demo {
 		String prepay_id = "";
 		String createOrderURL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 		
-		
 		prepay_id = new GetWxOrderno().getPayNo(createOrderURL, xml);
 
 		System.out.println("获取到的预支付ID：" + prepay_id);
-		
 		
 		//获取prepay_id后，拼接最后请求支付所需要的package
 		
