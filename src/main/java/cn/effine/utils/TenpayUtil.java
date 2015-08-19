@@ -23,22 +23,6 @@ public class TenpayUtil {
 	}
 
 	/**
-	 * 获取当前日期 yyyyMMdd
-	 * 
-	 * @param date
-	 * @return String
-	 */
-	public static String formatDate(Date date) {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
-		String strDate = formatter.format(date);
-		return strDate;
-	}
-
-	public static void main(String[] args) {
-		System.out.println(	 );
-	}
-	
-	/**
 	 * 获取编码字符集
 	 * 
 	 * @param request
