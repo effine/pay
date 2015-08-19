@@ -1,7 +1,11 @@
+/**
+ * @author effine
+ * @Date 2015年8月11日  上午10:24:33
+ * @email verphen#gmail.com
+ * @site http://www.effine.cn
+ */
+
 package cn.effine.utils;
-
-
-
 
 import java.security.MessageDigest;
 
