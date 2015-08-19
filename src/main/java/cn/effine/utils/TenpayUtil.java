@@ -61,21 +61,6 @@ public class TenpayUtil {
 		if (null == enc || "".equals(enc)) {
 			enc = "gbk";
 		}
-
 		return enc;
-	}
-
-	public static String URLencode(String content) {
-
-		String URLencode;
-
-		URLencode = replace(Server.equals(content), "+", "%20");
-
-		return URLencode;
-	}
-
-	private static String replace(boolean equals, String string, String string2) {
-
-		return null;
 	}
 }
