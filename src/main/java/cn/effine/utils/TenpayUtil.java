@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 public class TenpayUtil {
 
 	private static Object Server;
-	private static String QRfromGoogle;
 
 	/**
 	 * 获取当前时间 yyyyMMddHHmmss
@@ -93,33 +92,4 @@ public class TenpayUtil {
 
 		return date.getTime() / 1000;
 	}
-
-	public static String QRfromGoogle(String chl) {
-		int widhtHeight = 300;
-		String EC_level = "L";
-		int margin = 0;
-		String QRfromGoogle;
-		chl = URLencode(chl);
-
-		QRfromGoogle = "http://chart.apis.google.com/chart?chs=" + widhtHeight
-				+ "x" + widhtHeight + "&cht=qr&chld=" + EC_level + "|" + margin
-				+ "&chl=" + chl;
-
-		return QRfromGoogle;
-	}
-
-	/**
-	 * 时间转换成字符串
-	 * 
-	 * @param date
-	 *            时间
-	 * @param formatType
-	 *            格式化类型
-	 * @return String
-	 */
-	public static String date2String(Date date, String formatType) {
-		SimpleDateFormat sdf = new SimpleDateFormat(formatType);
-		return sdf.format(date);
-	}
-
 }
