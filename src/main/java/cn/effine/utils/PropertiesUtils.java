@@ -36,6 +36,7 @@ public class PropertiesUtils {
 	static {
 		payProperties = new Properties();
 		wechatProperties = new Properties();
+		alipayProperties = new Properties();
 		try {
 			// 解析文件pay.properties
 			InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("pay.properties");

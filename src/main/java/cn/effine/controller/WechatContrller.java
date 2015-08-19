@@ -181,8 +181,8 @@ public class WechatContrller {
 	 */
 	@RequestMapping("orderquery")
 	public void orderQuery(HttpServletRequest request, HttpServletResponse response){
-		String transaction_id = "1010170290201508110595762800";
-		String out_trade_no = "0951218353";
+		String transaction_id = "1010170290201508120605936014";
+		String out_trade_no = "1631051549";
 		
 		// 参数集合按参数key的ASCII从小到大插入(参考：签名算法[https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=4_3])
 		SortedMap<String, String> packageParams = new TreeMap<String, String>();
@@ -190,7 +190,7 @@ public class WechatContrller {
 		packageParams.put("mch_id", Constants.partner);  
 		packageParams.put("nonce_str", StringCustomUtils.getRandomString(32));  
 		packageParams.put("out_trade_no", out_trade_no);  
-		packageParams.put("transaction_id", transaction_id);  
+		packageParams.put("transact`ion_id", transaction_id);  
 		
 		RequestHandler reqHandler = new RequestHandler(request, response);
 		// TODO effine 验证是否有用，无用则删除
