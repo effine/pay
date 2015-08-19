@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public class TenpayUtil {
 
-	private static Object Server;
-
 	/**
 	 * 获取当前时间 yyyyMMddHHmmss
 	 * 
