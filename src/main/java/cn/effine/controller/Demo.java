@@ -22,9 +22,6 @@ public class Demo {
 	//微信支付成功后通知地址 必须要求80端口并且地址不能带参数
 	private static String notifyurl = "";																	 // Key
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		
 		//微信支付jsApi
