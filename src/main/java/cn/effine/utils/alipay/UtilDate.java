@@ -7,10 +7,6 @@
 
 package cn.effine.utils.alipay;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Random;
 
 /* *
  *类名：UtilDate
@@ -26,16 +22,4 @@ public class UtilDate {
     
     /** 年月日(无下划线) yyyyMMdd */
     public static final String dtShort                 = "yyyyMMdd";
-	
-    
-    /**
-     * 返回系统当前时间(精确到毫秒),作为一个唯一的订单编号
-     * @return
-     *      以yyyyMMddHHmmss为格式的当前系统时间
-     */
-	public  static String getOrderNum(){
-		Date date=new Date();
-		DateFormat df=new SimpleDateFormat(dtLong);
-		return df.format(date);
-	}
 }
