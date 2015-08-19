@@ -69,7 +69,6 @@ public class RequestHandler {
 		this.parameters = new TreeMap();
 		// 验证notify支付订单网关
 		notifyUrl = "https://gw.tenpay.com/gateway/simpleverifynotifyid.xml";
-		
 	}
 
 	/**
@@ -141,7 +140,6 @@ public class RequestHandler {
 			String v = (String) entry.getValue();
 			sb.append(k + "=" + UrlEncode(v) + "&");
 		}
-
 		// 去掉最后一个&
 		return sb.append("sign=" + sign).toString();
 	}
