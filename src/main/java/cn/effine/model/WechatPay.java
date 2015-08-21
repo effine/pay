@@ -1,9 +1,8 @@
-package cn.effine.controller;
+package cn.effine.model;
 
 public class WechatPay {
-
-	private String orderId;// 订单号
-	private String totalFee;// 金额
+	private String orderId;	// 商户系统生成的订单号
+	private int totalFee;	// 支付金额（单位分，不存在小数）
 	private String spbillCreateIp;// 订单生成的机器 IP
 	private String notifyUrl;// 这里notify_url是
 								// 支付完成后微信发给该链接信息，可以判断会员是否支付成功，改变订单状态等
@@ -18,11 +17,11 @@ public class WechatPay {
 		this.orderId = orderId;
 	}
 
-	public String getTotalFee() {
+	public int getTotalFee() {
 		return totalFee;
 	}
 
-	public void setTotalFee(String totalFee) {
+	public void setTotalFee(int totalFee) {
 		this.totalFee = totalFee;
 	}
 

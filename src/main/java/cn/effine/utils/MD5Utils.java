@@ -1,11 +1,15 @@
+/**
+ * @author effine
+ * @Date 2015年8月11日  上午10:24:33
+ * @email verphen#gmail.com
+ * @site http://www.effine.cn
+ */
+
 package cn.effine.utils;
-
-
-
 
 import java.security.MessageDigest;
 
-public class MD5Util {
+public class MD5Utils {
 
 	private static String byteArrayToHexString(byte b[]) {
 		StringBuffer resultSb = new StringBuffer();
@@ -30,11 +34,9 @@ public class MD5Util {
 			resultString = new String(origin);
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			if (charsetname == null || "".equals(charsetname))
-				resultString = byteArrayToHexString(md.digest(resultString
-						.getBytes()));
+				resultString = byteArrayToHexString(md.digest(resultString.getBytes()));
 			else
-				resultString = byteArrayToHexString(md.digest(resultString
-						.getBytes(charsetname)));
+				resultString = byteArrayToHexString(md.digest(resultString.getBytes(charsetname)));
 		} catch (Exception exception) {
 		}
 		return resultString;
@@ -42,5 +44,4 @@ public class MD5Util {
 
 	private static final String hexDigits[] = { "0", "1", "2", "3", "4", "5",
 			"6", "7", "8", "9", "a", "b", "c", "d", "e", "f" };
-
 }

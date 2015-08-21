@@ -1,8 +1,5 @@
 package cn.effine.utils;
 
-
-
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Iterator;
@@ -13,8 +10,6 @@ import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-
 
 /*
  '微信支付服务器签名支付请求请求类
@@ -74,7 +69,6 @@ public class RequestHandler {
 		this.parameters = new TreeMap();
 		// 验证notify支付订单网关
 		notifyUrl = "https://gw.tenpay.com/gateway/simpleverifynotifyid.xml";
-		
 	}
 
 	/**
@@ -119,9 +113,7 @@ public class RequestHandler {
 		return (null == s) ? "" : s;
 	}
 
-	
 	 //设置密钥
-	
 	public void setKey(String key) {
 		this.partnerkey = key;
 	}
@@ -136,9 +128,8 @@ public class RequestHandler {
 	}
 
 	// 获取package的签名包
-	public String genPackage(SortedMap<String, String> packageParams)
-			throws UnsupportedEncodingException {
-		String sign = createSign(packageParams);
+	public String genPackage(SortedMap<String, String> packageParams) throws UnsupportedEncodingException {
+		String sign = generateSign(packageParams);
 
 		StringBuffer sb = new StringBuffer();
 		Set es = packageParams.entrySet();
@@ -149,17 +140,18 @@ public class RequestHandler {
 			String v = (String) entry.getValue();
 			sb.append(k + "=" + UrlEncode(v) + "&");
 		}
-
 		// 去掉最后一个&
-		String packageValue = sb.append("sign=" + sign).toString();
-//		System.out.println("UrlEncode后 packageValue=" + packageValue);
-		return packageValue;
+		return sb.append("sign=" + sign).toString();
 	}
 
 	/**
-	 * 创建md5摘要,规则是:按参数名称a-z排序,遇到空值的参数不参加签名。
+	 * 生成签名sign (创建md5摘要,规则是:按参数名称a-z排序,遇到空值的参数不参加签名。)
+	 *
+	 * @param packageParams
+	 *            所需参数Map(集合非空参数值的参数按照参数名ASCII码从小到大排序<字典序>)
+	 * @return
 	 */
-	public String createSign(SortedMap<String, String> packageParams) {
+	public String generateSign(SortedMap<String, String> packageParams) {
 		StringBuffer sb = new StringBuffer();
 		Set es = packageParams.entrySet();
 		Iterator it = es.iterator();
@@ -171,10 +163,9 @@ public class RequestHandler {
 				sb.append(k + "=" + v + "&");
 			}
 		}
-		sb.append("key=" + this.getKey());
-		String sign = MD5Util.MD5Encode(sb.toString(), this.charset)
-				.toUpperCase();
-		return sign;
+		// 加上随机字符串
+		sb.append("key=" + Constants.partnerkey);
+		return MD5Utils.MD5Encode(sb.toString(), "UTF-8").toUpperCase();
 	}
 	
 	/**
@@ -196,18 +187,14 @@ public class RequestHandler {
 		// 算出摘要
 		String enc = TenpayUtil.getCharacterEncoding(this.request,
 				this.response);
-		String sign = MD5Util.MD5Encode(sb.toString(), enc).toLowerCase();
+		String sign = MD5Utils.MD5Encode(sb.toString(), enc).toLowerCase();
 
 		String tenpaySign = this.getParameter("sign").toLowerCase();
 
 		// debug信息
-		this.setDebugInfo(sb.toString() + " => sign:" + sign + " tenpaySign:"
-				+ tenpaySign);
-
+		this.setDebugInfo(sb.toString() + " => sign:" + sign + " tenpaySign:" + tenpaySign);
 		return tenpaySign.equals(sign);
 	}
-
-	
 
     //输出XML
 	   public String parseXML() {
@@ -234,14 +221,16 @@ public class RequestHandler {
 	protected void setDebugInfo(String debugInfo) {
 		this.debugInfo = debugInfo;
 	}
+
 	public void setPartnerkey(String partnerkey) {
 		this.partnerkey = partnerkey;
 	}
+
 	public String getDebugInfo() {
 		return debugInfo;
 	}
+
 	public String getKey() {
 		return key;
 	}
-
 }

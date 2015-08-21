@@ -3,9 +3,11 @@ package cn.effine.controller;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import cn.effine.model.WechatPay;
 import cn.effine.utils.GetWxOrderno;
 import cn.effine.utils.RequestHandler;
 import cn.effine.utils.Sha1Util;
+import cn.effine.utils.StringCustomUtils;
 import cn.effine.utils.TenpayUtil;
 
 public class Demo {
@@ -20,9 +22,6 @@ public class Demo {
 	//微信支付成功后通知地址 必须要求80端口并且地址不能带参数
 	private static String notifyurl = "";																	 // Key
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		
 		//微信支付jsApi
@@ -31,7 +30,7 @@ public class Demo {
 		wechatPay.setBody("商品信息");
 		wechatPay.setOrderId(getNonceStr());
 		wechatPay.setSpbillCreateIp("127.0.0.1");
-		wechatPay.setTotalFee("0.01");
+		wechatPay.setTotalFee(1);
 	    getPackage(wechatPay);
 	    
 	    //扫码支付
@@ -39,7 +38,7 @@ public class Demo {
 	    model.setBody("商品信息");
 	    model.setOrderId(getNonceStr());
 	    model.setSpbillCreateIp("127.0.0.1");
-	    model.setTotalFee("0.01");
+	    model.setTotalFee(1);
 		String QRCodeLinks = getCodeurl(model);
 		System.out.println("微信二维码链接："+QRCodeLinks);
 	}
@@ -55,7 +54,7 @@ public class Demo {
 		String attach = "";
 		
 		// 总金额以分为单位，不带小数点
-		String totalFee = getMoney(model.getTotalFee());
+		String totalFee = getMoney(String.valueOf(model.getTotalFee()));
 		
 		// 订单生成的机器 IP
 		String spbill_create_ip = model.getSpbillCreateIp();
@@ -94,7 +93,7 @@ public class Demo {
 		RequestHandler reqHandler = new RequestHandler(null, null);
 		reqHandler.init(appid, appsecret, partnerkey);
 
-		String sign = reqHandler.createSign(packageParams);
+		String sign = reqHandler.generateSign(packageParams);
 		String xml = "<xml>" + "<appid>" + appid + "</appid>" + "<mch_id>"
 				+ mch_id + "</mch_id>" + "<nonce_str>" + nonce_str
 				+ "</nonce_str>" + "<sign>" + sign + "</sign>"
@@ -127,7 +126,7 @@ public class Demo {
 		// 附加数据 原样返回
 		String attach = "";
 		// 总金额以分为单位，不带小数点
-		String totalFee = getMoney(model.getTotalFee());
+		String totalFee = getMoney(String.valueOf(model.getTotalFee()));
 		
 		// 订单生成的机器 IP
 		String spbill_create_ip = model.getSpbillCreateIp();
@@ -166,7 +165,7 @@ public class Demo {
 		RequestHandler reqHandler = new RequestHandler(null, null);
 		reqHandler.init(appid, appsecret, partnerkey);
 
-		String sign = reqHandler.createSign(packageParams);
+		String sign = reqHandler.generateSign(packageParams);
 		String xml = "<xml>" + "<appid>" + appid + "</appid>" + "<mch_id>"
 				+ mch_id + "</mch_id>" + "<nonce_str>" + nonce_str
 				+ "</nonce_str>" + "<sign>" + sign + "</sign>"
@@ -182,11 +181,9 @@ public class Demo {
 		String prepay_id = "";
 		String createOrderURL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 		
-		
 		prepay_id = new GetWxOrderno().getPayNo(createOrderURL, xml);
 
 		System.out.println("获取到的预支付ID：" + prepay_id);
-		
 		
 		//获取prepay_id后，拼接最后请求支付所需要的package
 		
@@ -199,7 +196,7 @@ public class Demo {
 		finalpackage.put("package", packages);  
 		finalpackage.put("signType", "MD5");
 		//要签名
-		String finalsign = reqHandler.createSign(finalpackage);
+		String finalsign = reqHandler.generateSign(finalpackage);
 		
 		String finaPackage = "\"appId\":\"" + appid + "\",\"timeStamp\":\"" + timestamp
 		+ "\",\"nonceStr\":\"" + nonce_str + "\",\"package\":\""
@@ -220,7 +217,7 @@ public class Demo {
 		// 8位日期
 		String strTime = currTime.substring(8, currTime.length());
 		// 四位随机数
-		String strRandom = TenpayUtil.buildRandom(4) + "";
+		String strRandom = StringCustomUtils.getRandomNum(4);
 		// 10位序列号,可以自行调整。
 		return strTime + strRandom;
 	}
@@ -250,5 +247,4 @@ public class Demo {
         }  
         return amLong.toString(); 
 	}
-
 }
