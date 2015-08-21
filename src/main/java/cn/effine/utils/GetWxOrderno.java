@@ -105,6 +105,7 @@ public class GetWxOrderno
 		
 		Map m = new HashMap();
 		InputStream in = String2Inputstream(strxml);
+		System.setProperty("javax.xml.parsers.SAXParserFactory", "com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl");
 		SAXBuilder builder = new SAXBuilder();
 		Document doc = builder.build(in);
 		Element root = doc.getRootElement();
