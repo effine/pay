@@ -1,8 +1,5 @@
 package cn.effine.utils.http;
 
-
-
-
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 
@@ -18,8 +15,6 @@ public class MySSLSocketFactory extends SSLSocketFactory{
 	}
 	
 	private static MySSLSocketFactory mySSLSocketFactory = null;
-	
-	
 	
 	private static SSLContext createSContext(){
 		SSLContext sslcontext = null;
@@ -49,5 +44,4 @@ public class MySSLSocketFactory extends SSLSocketFactory{
 			return mySSLSocketFactory = new MySSLSocketFactory(createSContext());
 		}
 	}
-	
 }

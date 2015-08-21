@@ -1,15 +1,8 @@
 package cn.effine.utils.http;
 
-
-
-
-
-
 import java.io.UnsupportedEncodingException;
 
 import org.apache.http.Header;
-
-
 
 /* *
  *类名：HttpResponse
@@ -74,5 +67,4 @@ public class HttpResponse {
     public void setStringResult(String stringResult) {
         this.stringResult = stringResult;
     }
-
 }
