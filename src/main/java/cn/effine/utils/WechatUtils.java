@@ -83,8 +83,7 @@ public class WechatUtils {
 				+ "</notify_url>" + "<trade_type>" + trade_type
 				+ "</trade_type>" 
 				+ "</xml>";
-		String createOrderURL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
-		return new GetWxOrderno().getCodeUrl(createOrderURL, xml);
+		return new GetWxOrderno().getCodeUrl(PropertiesUtils.getWechatValue("unifiedorder"), xml);
 	}
 	
 	/**
