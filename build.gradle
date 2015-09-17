@@ -9,8 +9,6 @@ description = """pay"""
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
-
-
 repositories {
      maven { url "http://124.192.140.107:8081/nexus/content/groups/public/" }
      maven { url "http://repo.maven.apache.org/maven2" }
