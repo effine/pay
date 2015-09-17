@@ -1,0 +1,39 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'cn.effine'
+version = '1.0'
+
+description = """pay"""
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+
+
+repositories {
+        
+     maven { url "http://124.192.140.107:8081/nexus/content/groups/public/" }
+     maven { url "http://repo.maven.apache.org/maven2" }
+}
+dependencies {
+    compile group: 'javax.servlet', name: 'javax.servlet-api', version:'3.0.1'
+    compile group: 'org.jdom', name: 'jdom', version:'2.0.2'
+    compile group: 'dom4j', name: 'dom4j', version:'1.6.1'
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version:'4.5'
+    compile group: 'commons-httpclient', name: 'commons-httpclient', version:'3.1'
+    compile group: 'org.springframework', name: 'spring-beans', version:'4.0.2.RELEASE'
+    compile group: 'org.springframework', name: 'spring-context', version:'4.0.2.RELEASE'
+    compile group: 'org.springframework', name: 'spring-web', version:'4.0.2.RELEASE'
+    compile group: 'org.springframework', name: 'spring-webmvc', version:'4.0.2.RELEASE'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version:'3.3.2'
+    compile group: 'junit', name: 'junit', version:'4.12'
+    compile group: 'com.thoughtworks.xstream', name: 'xstream', version:'1.4.7'
+    compile group: 'com.google.zxing', name: 'javase', version:'3.2.0'
+    compile group: 'com.alibaba', name: 'fastjson', version:'1.2.6'
+}
+
+// 配置Java项目字符编码
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}

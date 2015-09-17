@@ -1,7 +1,13 @@
 
 /target
 .settings
+/build
+gradle/
+.gradle/
 
+gradlew
+gradlew.bat
+settings.gradle
 .classpath
 .project
 *.war
