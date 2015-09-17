@@ -12,25 +12,29 @@ targetCompatibility = 1.7
 
 
 repositories {
-        
      maven { url "http://124.192.140.107:8081/nexus/content/groups/public/" }
      maven { url "http://repo.maven.apache.org/maven2" }
 }
+
 dependencies {
-    compile group: 'javax.servlet', name: 'javax.servlet-api', version:'3.0.1'
-    compile group: 'org.jdom', name: 'jdom', version:'2.0.2'
-    compile group: 'dom4j', name: 'dom4j', version:'1.6.1'
-    compile group: 'org.apache.httpcomponents', name: 'httpclient', version:'4.5'
-    compile group: 'commons-httpclient', name: 'commons-httpclient', version:'3.1'
-    compile group: 'org.springframework', name: 'spring-beans', version:'4.0.2.RELEASE'
-    compile group: 'org.springframework', name: 'spring-context', version:'4.0.2.RELEASE'
-    compile group: 'org.springframework', name: 'spring-web', version:'4.0.2.RELEASE'
-    compile group: 'org.springframework', name: 'spring-webmvc', version:'4.0.2.RELEASE'
-    compile group: 'org.apache.commons', name: 'commons-lang3', version:'3.3.2'
-    compile group: 'junit', name: 'junit', version:'4.12'
-    compile group: 'com.thoughtworks.xstream', name: 'xstream', version:'1.4.7'
-    compile group: 'com.google.zxing', name: 'javase', version:'3.2.0'
-    compile group: 'com.alibaba', name: 'fastjson', version:'1.2.6'
+	compile (
+	 	'javax.servlet:javax.servlet-api:3.0.1',
+	 	'org.jdom:jdom:2.0.2',
+	 	'dom4j:dom4j:1.6.1',
+	 	'org.apache.httpcomponents:httpclient:4.5',
+	 	'commons-httpclient:commons-httpclient:3.1',
+	 	
+	 	'org.springframework:spring-beans:4.0.2.RELEASE',
+	 	'org.springframework:spring-context:4.0.2.RELEASE',
+	 	'org.springframework:spring-web:4.0.2.RELEASE',
+	 	'org.springframework:spring-webmvc:4.0.2.RELEASE',
+	 	
+	 	'org.apache.commons:commons-lang3:3.3.2',
+	 	'junit:junit:4.12',
+	 	'com.thoughtworks.xstream:xstream:1.4.7',
+	 	'com.google.zxing:javase:3.2.0',
+	 	'com.alibaba:fastjson:1.2.6'
+	)
 }
 
 // 配置Java项目字符编码
