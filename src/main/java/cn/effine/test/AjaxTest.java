@@ -19,7 +19,7 @@ public class AjaxTest {
 
 	@RequestMapping("ajax")
 	@ResponseBody
-	public byte[] ajaxEncryption() {
-		return "张亚飞".getBytes();
+	public String ajaxEncryption() {
+		return "张亚飞";
 	}
 }
