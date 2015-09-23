@@ -7,17 +7,19 @@
 
 package cn.effine.test;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * ajax返回值加密测试
  */
+@Controller
 public class AjaxTest {
 
 	@RequestMapping("ajax")
 	@ResponseBody
-	public String ajaxEncryption() {
-		return "-----";
+	public byte[] ajaxEncryption() {
+		return "张亚飞".getBytes();
 	}
 }
