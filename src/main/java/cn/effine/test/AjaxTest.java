@@ -7,6 +7,9 @@
 
 package cn.effine.test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,7 +22,12 @@ public class AjaxTest {
 
 	@RequestMapping("ajax")
 	@ResponseBody
-	public String ajaxEncryption() {
-		return "张亚飞";
+	public Map<String, Object> ajaxEncryption() {
+		Map<String, Object> jsonMap = new HashMap<String, Object>();
+		jsonMap.put("a", 1);
+		jsonMap.put("b", "");
+		jsonMap.put("c", null);
+		jsonMap.put("d", "wuzhuti.cn");
+		return jsonMap;
 	}
 }

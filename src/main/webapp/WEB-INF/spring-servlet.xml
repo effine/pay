@@ -12,13 +12,7 @@
 	<mvc:annotation-driven>
 		<message-converters register-defaults="true">
 			<beans:bean id="fastJsonHttpMessageConverter"
-				class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
-				<beans:property name="supportedMediaTypes">
-					<beans:list>
-						<beans:value>application/json</beans:value>
-					</beans:list>
-				</beans:property>
-			</beans:bean>
+				class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter" />
 		</message-converters>
 	</mvc:annotation-driven>
 
