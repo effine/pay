@@ -9,8 +9,6 @@ description = "pay"
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
-
-
 repositories {
         
      maven { url "http://repo.maven.apache.org/maven2" }
@@ -32,4 +30,9 @@ dependencies {
 	    'com.google.zxing:javase:3.2.0',
 	    'com.alibaba:fastjson:1.2.6'
     )
+}
+
+// 配置Java项目字符编码
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
 }
