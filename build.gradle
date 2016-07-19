@@ -1,0 +1,35 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'cn.effine'
+version = '1.0'
+
+description = "pay"
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+
+
+repositories {
+        
+     maven { url "http://repo.maven.apache.org/maven2" }
+}
+dependencies {
+    compile (
+	    'javax.servlet:javax.servlet-api:3.0.1',
+	    'org.jdom:jdom:2.0.2',
+	    'dom4j:dom4j:1.6.1',
+	    'org.apache.httpcomponents:httpclient:4.5',
+	    'commons-httpclient:commons-httpclient:3.1',
+	    'org.springframework:spring-beans:4.0.2.RELEASE',
+	    'org.springframework:spring-context:4.0.2.RELEASE',
+	    'org.springframework:spring-web:4.0.2.RELEASE',
+	    'org.springframework:spring-webmvc:4.0.2.RELEASE',
+	    'org.apache.commons:commons-lang3:3.3.2',
+	    'junit:junit:4.12',
+	    'com.thoughtworks.xstream:xstream:1.4.7',
+	    'com.google.zxing:javase:3.2.0',
+	    'com.alibaba:fastjson:1.2.6'
+    )
+}
